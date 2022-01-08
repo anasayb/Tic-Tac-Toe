@@ -1,5 +1,5 @@
 
-# This program is a modification of a "tic tac game" program
+# This program is a modification of a "Tic-Tac-Toe game" program
 # in "Python Bootcamp 2021 Build 15 working Applications and Games" Udemy course
 
 import random
