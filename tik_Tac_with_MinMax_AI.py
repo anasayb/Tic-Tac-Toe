@@ -6,7 +6,7 @@ from termcolor import colored
 board = [x for x in range(10)]
 
 
-def inserstLetter(letter, pos):
+def insertLetter(letter, pos):
     board[pos] = letter
 
 
@@ -63,13 +63,13 @@ def isWinner(board, letter):
 def playerMove():
     run = True
     while run:
-        move = input("please select a postion to enter the x between 1 and 9: ")
+        move = input("please select a position to enter the x between 1 and 9: ")
         try:
             move = int(move)
             if 0 < move < 10:
                 if spaceIsFree(move):
                     run = False
-                    inserstLetter('x', move)
+                    insertLetter('x', move)
                 else:
                     print("Sorry, This space is occupied")
             else:
@@ -79,6 +79,7 @@ def playerMove():
 
 
 def maxAlphaBeta(alpha, beta):
+
     # values:
     # win = 1
     # lose = -1
@@ -91,29 +92,36 @@ def maxAlphaBeta(alpha, beta):
     # check if we reach leaf (some one win or tie)
     # x:User    o:AI
     if isWinner(board, 'x'):
-        return (-1, 0)
+        return -1, 0
     elif isWinner(board, 'o'):
-        return (1, 0)
+        return 1, 0
     elif isBoardFull(board):
-        return (0, 0)
+        return 0, 0
 
+    # we go through the empty spaces in the board
     for i in range(1, len(board)):
         if board[i] in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
 
             board[i] = 'o'
             m, min_pos = minAlphaBeta(alpha, beta)
+
+            # we check if the min value of that child is bigger than the current max value
             if m > maxVal:
                 maxVal = m
                 pos = i
+
+            # reset the space to it's initial value
             board[i] = str(i)
 
+            # pruning by checking the beta value of the parent
             if maxVal >= beta:
-                return (maxVal, pos)
+                return maxVal, pos
 
+            # changing the value of the alpha of the current child
             if maxVal > alpha:
                 alpha = maxVal
 
-    return (maxVal, pos)
+    return maxVal, pos
 
 
 def minAlphaBeta(alpha, beta):
@@ -135,19 +143,26 @@ def minAlphaBeta(alpha, beta):
     elif isBoardFull(board):
         return 0, 0
 
+    # we go through the empty spaces in the board
     for i in range(0, len(board)):
         if board[i] in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
 
             board[i] = 'x'
             m, pos = maxAlphaBeta(alpha, beta)
+
+            # we check if the max value of that child is bigger than the current min value
             if m < minVal:
                 minVal = m
                 pos = i
+
+            # reset the space to it's initial value
             board[i] = str(i)
 
+            # pruning by checking the beta value of the parent
             if minVal <= alpha:
                 return minVal, pos
 
+            # changing the value of the alpha of the current child
             if minVal < beta:
                 beta = minVal
 
@@ -168,11 +183,11 @@ def main():
             break
 
         if not isWinner(board, 'x'):
-            val, move = maxAlphaBeta(-2,2)
+            val, move = maxAlphaBeta(-2, 2)
             if move == 0:
                 print(" ")
             else:
-                inserstLetter('o', move)
+                insertLetter('o', move)
                 print("computer placed an o on position", move, ";")
                 printBoard(board)
                 print("--------------------------------------")
