@@ -8,7 +8,7 @@ from termcolor import colored
 board = [x for x in range(10)]
 
 
-def inserstLetter(letter, pos):
+def insertLetter(letter, pos):
     board[pos] = letter
 
 
@@ -65,13 +65,13 @@ def isWinner(board, letter):
 def playerMove():
     run = True
     while run:
-        move = input("please select a postion to enter the x between 1 and 9: ")
+        move = input("please select a position to enter the x between 1 and 9: ")
         try:
             move = int(move)
             if 0 < move < 10:
                 if spaceIsFree(move):
                     run = False
-                    inserstLetter('x', move)
+                    insertLetter('x', move)
                 else:
                     print("Sorry, This space is occupied")
             else:
@@ -81,19 +81,19 @@ def playerMove():
 
 
 def computerMove(board):
-    possilbeMoves = [x for x, letter in enumerate(board) if letter == str(x) and x != 0]
+    possibleMoves = [x for x, letter in enumerate(board) if letter == str(x) and x != 0]
     move = 0
 
     for let in ['o', 'x']:
-        for i in possilbeMoves:
-            boardcopy = board[:]
-            boardcopy[i] = let
-            if isWinner(boardcopy, let):
+        for i in possibleMoves:
+            boardCopy = board[:]
+            boardCopy[i] = let
+            if isWinner(boardCopy, let):
                 move = i
                 return move
 
     cornersOpen = []
-    for i in possilbeMoves:
+    for i in possibleMoves:
         if i in [1, 3, 7, 9]:
             cornersOpen.append(i)
 
@@ -101,12 +101,12 @@ def computerMove(board):
         move = random.choice(cornersOpen)
         return move
 
-    if 5 in possilbeMoves:
+    if 5 in possibleMoves:
         move = 5
         return move
 
     edgeOpen = []
-    for i in possilbeMoves:
+    for i in possibleMoves:
         if i in [2, 4, 6, 8]:
             edgeOpen.append(i)
 
@@ -137,7 +137,7 @@ def main():
             if move == 0:
                 print(" ")
             else:
-                inserstLetter('o', move)
+                insertLetter('o', move)
                 print("computer placed an o on position", move, ";")
                 printBoard(board)
                 print("--------------------------------------")
