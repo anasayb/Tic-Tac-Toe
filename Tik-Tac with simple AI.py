@@ -17,9 +17,9 @@ def color(var):
     if var in ['1','2','3','4','5','6','7','8','9']:
         return colored(var,'grey')
     elif var== 'x':
-        return colored(var,'red')
+        return colored(var,'gree')
     elif var == 'o':
-        return colored(var,'green')
+        return colored(var,'red')
 
 
 def printBoard(board):
